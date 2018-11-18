@@ -1,6 +1,8 @@
 #ifndef __COMMON_H__
 #define	__COMMON_H__
 
+#include <stdio.h>
+
 #include "stm32f10x.h"
 
 #include "bsp_led.h"
@@ -28,6 +30,15 @@
 #include "enc28j60.h"
 
 #include "spi.h"
+
+#include "lwip_comm.h"
+
+#if  1
+	#define LWIP_INTERRUPT 
+#else
+	#define LWIP_SCAN 
+#endif
+#define DEBUG_INFO  printf
 
 void Bsp_init(void);
 

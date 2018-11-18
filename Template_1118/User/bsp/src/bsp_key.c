@@ -55,42 +55,6 @@ void KEY_GPIO_Init(void)
   GPIO_Init(KEY2_GPIO, &GPIO_InitStructure);
 }
 
-
-void EXTI_Inits(void)
-{
-	NVIC_InitTypeDef NVIC_InitStructure;
-  EXTI_InitTypeDef EXTI_InitStructure;
-	
-	/* Enable the EXTI2 Interrupt */
-  NVIC_InitStructure.NVIC_IRQChannel = EXTI1_IRQn;				 //外部中断1
-  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;	     //抢占优先级 0
-  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;			 //子优先级0  
-  //NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;				 //使能
-  NVIC_Init(&NVIC_InitStructure);
-	
-	
-	 //用于配置AFIO外部中断配置寄存器AFIO_EXTICR1，用于选择EXTI2外部中断的输入源是PE2。
-  GPIO_EXTILineConfig(GPIO_PortSourceGPIOA, GPIO_PinSource1);     //外部中断配置AFIO--ETXI2
-
-  EXTI_InitStructure.EXTI_Line = EXTI_Line1;					  //PE2 作为键盘的行线。检测状态
-  EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;			  //中断模式
-  EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;		  //下降沿触发
-  EXTI_InitStructure.EXTI_LineCmd = ENABLE;
-  EXTI_Init(&EXTI_InitStructure);
-	
-}
-
-void GPIOA1_Init(void)
-{
-
-	GPIO_InitTypeDef GPIO_InitStructure;
-	
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,ENABLE);
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;	         	 	//ENC28J60接收完成中断引脚 
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;   	 		//内部上拉输入
-  GPIO_Init(GPIOA, &GPIO_InitStructure);
-}
-
 /**
   * 函数功能: 简单粗暴的延时函数
   * 输入参数: time；延时时间设置

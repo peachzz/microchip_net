@@ -41,8 +41,9 @@ void SysTick_Init(void)
 		/* Capture error */ 
 		while (1);
 	}
-	/* 关闭系统滴答定时器：初始化先不用开启，等需要延时时才开启定时器  */
-	SysTick->CTRL &= ~ SysTick_CTRL_ENABLE_Msk;
+//	/* 关闭系统滴答定时器：初始化先不用开启，等需要延时时才开启定时器  */
+//	SysTick->CTRL &= ~ SysTick_CTRL_ENABLE_Msk;
+		SysTick->CTRL |=  SysTick_CTRL_ENABLE_Msk;
 }
 
 /**

@@ -22,7 +22,7 @@
 /* 私有变量 ------------------------------------------------------------------*/
 /* 扩展变量 ------------------------------------------------------------------*/
 /* 私有函数原形 --------------------------------------------------------------*/
-static uint16_t timecount;
+//static uint16_t timecount;
 /* 函数体 --------------------------------------------------------------------*/
 
 /**
@@ -35,15 +35,22 @@ int main(void)
 {
 	/* 初始化硬件 */ 
   Bsp_init();
-	
+	printf("System is start\n");
 	/* 清零时间计数 */ 
-  timecount=0;
-	printf("System is start \n");
+ // timecount=0;
+
+	//初始化lwip
+	Lwip_task(NULL);
+	
   /* 无限循环 */
   while (1)
   {
-		Delay_ms(500);
-		LED1_TOGGLE;
+#ifdef LWIP_SCAN
+	 process_mac();
+#endif
+		
+		sys_check_timeouts();
+	
   }
 }
 

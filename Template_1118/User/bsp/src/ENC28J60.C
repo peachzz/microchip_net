@@ -497,4 +497,3 @@ void mymacinit(unsigned char *mymac)
 	enc28j60clkout(2);                 // change clkout from 6.25MHz to 12.5MHz
 }
 
-

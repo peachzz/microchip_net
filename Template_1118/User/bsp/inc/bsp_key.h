@@ -28,8 +28,6 @@ void KEY_GPIO_Init(void);
 KEYState_TypeDef KEY1_StateRead(void);
 KEYState_TypeDef KEY2_StateRead(void);
 
-void EXTI_Inits(void);
-void GPIOA1_Init(void);
 #endif  // __BSP_KEY_H__
 
 /******************* (C) COPYRIGHT 2015-2020 硬石嵌入式开发团队 *****END OF FILE****/

@@ -24,6 +24,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f10x_it.h"
 #include "bsp_SysTick.h"
+#include "lwip_comm.h"
 
 /** @addtogroup STM32F10x_StdPeriph_Template
   * @{
@@ -33,6 +34,8 @@
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
+__IO uint32_t lwip_tick = 0;
+uint32_t led_count = 0;
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
 
@@ -136,8 +139,37 @@ void PendSV_Handler(void)
 void SysTick_Handler(void)
 {
 	TimingDelay_Decrement();
+	lwip_tick++;
+	led_count++;
+	
+	if(led_count == 500)
+	{
+		led_count= 0;
+		LED1_TOGGLE;
+	}
+	
+	if(lwip_tick >= 20)
+	{
+		lwip_tick = 0;
+		lwip_localtime +=20;
+	}
+	
 }
 
+
+void EXTI1_IRQHandler(void)
+{
+  //int ret = 0;
+
+  if(EXTI_GetITStatus(EXTI_Line1) != RESET)				 
+  {
+		
+    EXTI_ClearITPendingBit(EXTI_Line1);		//清除中断请求标志
+#ifdef LWIP_INTERRUPT
+		process_mac();				//处理网卡数据包
+#endif
+  }
+}
 /******************************************************************************/
 /*                 STM32F10x Peripherals Interrupt Handlers                   */
 /*  Add here the Interrupt Handler for the used peripheral(s) (PPP), for the  */
